@@ -6,7 +6,9 @@ WORKDIR /app
 
 COPY ./service/ /app/
 
-go build -i -v -o /app/bin/ /app/server
+RUN go mod vendor
+
+RUN go build -i -v -o /app/bin/ /app/server
 
 VOLUME /app
 

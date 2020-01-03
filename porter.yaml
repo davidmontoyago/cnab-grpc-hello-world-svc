@@ -27,9 +27,9 @@ install:
       flags:
         c: echo Hello World
   - kubernetes:
-      description: "Create NGINX Deployment"
+      description: "Create service Deployment"
       manifests:
-        - service/nginx
+        - service/manifests
       wait: true
 
 upgrade:

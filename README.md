@@ -2,9 +2,24 @@
 
 Sample cloud portable gRPC service with [Porter](https://porter.sh/).
 
-# Workflow
+## Getting Started
 
+```
+make pre-reqs
 
+cd ./service
+
+go mod vendor
+
+go build ./...
+```
+
+## Workflow
+
+```
+# build CNAB bundle
+porter build
+```
 
 # Contents
 
