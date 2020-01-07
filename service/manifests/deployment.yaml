@@ -1,1 +1,22 @@
 ---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: cnab-grpc-service
+    labels:
+        app: cnab-grpc-service
+spec:
+    replicas: 2
+    selector:
+        matchLabels:
+            app: cnab-grpc-service
+    template:
+        metadata:
+            labels:
+                app: cnab-grpc-service
+    spec:
+        containers:
+            - name: api
+              image: porter-sample-grpc-service:latest
+              ports:
+                  - containerPort: 80

@@ -19,6 +19,11 @@ go build ./...
 ```
 # build CNAB bundle
 porter build
+
+porter credentials generate kubeconfig
+
+# FAILING - waiting on credentials use clarification
+porter install
 ```
 
 # Contents
