@@ -6,10 +6,8 @@
 name: grpc-sample-service
 version: 0.1.0
 description: "Template gRPC service"
-invocationImage: porter-sample-grpc-service:latest
+invocationImage: localhost:5000/porter-sample-grpc-service:latest
 tag: deislabs/porter-sample-grpc-bundle:latest
-
-# Uncomment out the line below to use a template Dockerfile for your invocation image
 dockerfile: Dockerfile.tmpl
 
 mixins:
@@ -18,16 +16,16 @@ mixins:
 
 credentials:
   - name: kubeconfig
-    path: ~/.kube/config
+    path: /root/.kube/config
 
 install:
   - exec:
-      description: "Install Hello World"
+      description: "deploy to host as daemon"
       command: bash
       flags:
-        c: echo Hello World
+        c: echo done!
   - kubernetes:
-      description: "Create service Deployment"
+      description: "deploy to X cluster"
       manifests:
         - service/manifests
       wait: true
@@ -41,14 +39,14 @@ upgrade:
 
 uninstall:
   - exec:
-      description: "Uninstall Hello World"
+      description: "uninstall from host"
       command: bash
       flags:
-        c: echo Goodbye World
+        c: echo done!
   - kubernetes:
-      description: "Uninstall Hello World"
+      description: "uninstall from x cluster"
       manifests:
-        - manifests/nginx
+        - service/manifests
       wait: true
 
 # See https://porter.sh/author-bundles/#dependencies
@@ -58,7 +56,3 @@ uninstall:
 #    parameters:
 #      database-name: wordpress
 
-# See https://porter.sh/wiring/#credentials
-#credentials:
-#  - name: kubeconfig
-#    path: /root/.kube/config

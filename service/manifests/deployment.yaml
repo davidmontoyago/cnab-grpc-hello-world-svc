@@ -14,9 +14,15 @@ spec:
         metadata:
             labels:
                 app: cnab-grpc-service
-    spec:
-        containers:
+        spec:
+            containers:
             - name: api
-              image: porter-sample-grpc-service:latest
+              image: localhost:5000/porter-sample-grpc-service:latest
+              imagePullPolicy: Always
+            #   command: ["/bin/sh", "-c", "/cnab/app/service/bin/server"]
+              command: ["/bin/sh"]
+              args:
+                - "-c"
+                - "/cnab/app/service/bin/server"
               ports:
-                  - containerPort: 80
+                - containerPort: 50051

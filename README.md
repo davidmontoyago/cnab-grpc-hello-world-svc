@@ -5,13 +5,18 @@ Sample cloud portable gRPC service with [Porter](https://porter.sh/).
 ## Getting Started
 
 ```
+# porter is unable to use the same docker daemon as minikube, use a local registry instead
+eval $(minikube docker-env --unset)
+
+# configure minikube to embed certs in ~/.kube/config and (re)start minikube
+minikube config set embed-certs true
+
+# start minikube with local registry
+minikube start --insecure-registry "$(minikube ip)"
+minikube addons enable registry
+docker run --name socat-bridge --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:$(minikube ip):5000"
+
 make pre-reqs
-
-cd ./service
-
-go mod vendor
-
-go build ./...
 ```
 
 ## Workflow
@@ -20,10 +25,13 @@ go build ./...
 # build CNAB bundle
 porter build
 
+# push image to local registry???
+docker push localhost:5000/porter-sample-grpc-service:latest
+
+# credentials allow cnab to map local credentials to the invocation image. Relative paths not supported.
 porter credentials generate kubeconfig
 
-# FAILING - waiting on credentials use clarification
-porter install
+porter install --cred kubeconfig
 ```
 
 # Contents
